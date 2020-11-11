@@ -1,0 +1,87 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Rope.gd" type="Script" id=1]
+[ext_resource path="res://Segment.tscn" type="PackedScene" id=2]
+
+[node name="Rope" type="Node2D"]
+position = Vector2( 271, 15 )
+z_index = -1
+script = ExtResource( 1 )
+
+[node name="Segments" type="Node2D" parent="."]
+
+[node name="Segment" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -16, -15 )
+rotation = -1.5708
+
+[node name="Segment2" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -50, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment2" index="1"]
+node_b = NodePath("../../Segment")
+
+[node name="Segment3" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -84, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment3" index="1"]
+node_b = NodePath("../../Segment2")
+
+[node name="Segment4" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -118, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment4" index="1"]
+node_b = NodePath("../../Segment3")
+
+[node name="Segment5" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -152, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment5" index="1"]
+node_b = NodePath("../../Segment4")
+
+[node name="Segment6" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -186, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment6" index="1"]
+node_b = NodePath("../../Segment5")
+
+[node name="Segment7" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -220, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment7" index="1"]
+node_b = NodePath("../../Segment6")
+
+[node name="Segment8" parent="Segments" instance=ExtResource( 2 )]
+position = Vector2( -254, -15 )
+rotation = -1.5708
+
+[node name="PinJoint2D" parent="Segments/Segment8" index="1"]
+node_b = NodePath("../../Segment7")
+
+[node name="Player1_Joint" type="PinJoint2D" parent="."]
+position = Vector2( -271, -15 )
+z_index = -1
+node_a = NodePath("../Segments/Segment8")
+bias = 0.9
+softness = 1.0
+
+[editable path="Segments/Segment"]
+
+[editable path="Segments/Segment2"]
+
+[editable path="Segments/Segment3"]
+
+[editable path="Segments/Segment4"]
+
+[editable path="Segments/Segment5"]
+
+[editable path="Segments/Segment6"]
+
+[editable path="Segments/Segment7"]
+
+[editable path="Segments/Segment8"]

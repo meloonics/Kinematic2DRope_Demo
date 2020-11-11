@@ -1,0 +1,81 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Obstacle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Rope.tscn" type="PackedScene" id=3]
+
+[node name="World" type="YSort"]
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 288, 225 )
+idx = 0
+
+[node name="RemoteTransform2D" parent="Player" index="3"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Rope" parent="." instance=ExtResource( 3 )]
+position = Vector2( 559, 224 )
+
+[node name="Player2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 559, 224 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 288, 225 )
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+smoothing_enabled = true
+
+[node name="Obstacle" parent="." instance=ExtResource( 1 )]
+position = Vector2( 160, 192 )
+
+[node name="Obstacle2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 160, 352 )
+
+[node name="Obstacle3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 352 )
+
+[node name="Obstacle4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 288, 352 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="RichTextLabel" parent="CanvasLayer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 40.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 400, 0 )
+bbcode_enabled = true
+bbcode_text = "Use Arrow Keys to move.
+Press Tab to switch player.
+
+[color=#00ff00]Green = input vector [/color]
+[color=#ff0000]Red = rope pull vector [/color]
+[color=#ffff00]Yellow = actual movement vector 
+aka move_and_slide(input + pull) [/color]"
+text = "Use Arrow Keys to move.
+Press Tab to switch player.
+
+Green = input vector 
+Red = rope pull vector 
+Yellow = actual movement vector 
+aka move_and_slide(input + pull) "
+fit_content_height = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer"]
+margin_left = 20.0
+margin_top = 125.0
+margin_right = 44.0
+margin_bottom = 149.0
+text = "Drag other player around"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="toggled" from="CanvasLayer/CheckBox" to="Player" method="_on_CheckBox_toggled"]
+[connection signal="toggled" from="CanvasLayer/CheckBox" to="Player2" method="_on_CheckBox_toggled"]
+
+[editable path="Player"]
