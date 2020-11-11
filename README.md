@@ -1,9 +1,14 @@
 # Kinematic2DRope_Demo
 A demo for two KinematicBody2D players tied to a RigidBody2D rope.
 
-Unlike RigidBody2D (RB2D), KinematicBody2D (KB2D) is not affected by outside physical forces. It only moves, where it is programmed to move.
-If you tie a KB2D to a Rope made of RB2Ds and move it, the Rope will be overstretched and glitches out. 
+Unlike RigidBody2D (RB2D), KinematicBody2D (KB2D) is not affected by outside physical forces. It only moves, where it is programmed to move. And it has the very convenient "move_and_slide()" function for it, which RB2D doesn't have, unfortunately.
+If you tie a KB2D to a Rope made of RB2Ds and move it, the Rope will be overstretched and glitches out, since KB2D isn't affected by the rope's physics. 
 The solution for this problem is to manipulate the velocity vector of KB2D. Usually you only program the Inputs in and that's it. In our case, we will add a pull-vector, which points to the direction, in which the rope would pull, to our velocity vector.
 
 The Rope is a Node2D, which contains one PinJoint2D for Player1, and another Node2D (which can be looped over easily), containing the chain segments. Each chain segment is a RigidBody2D with a CollisionBox2D, one PinJoint2D and two Position2Ds, which mark the North- and Southpole of the Object (think of it as a magnet). The force of the pull vector is calculated by adding together the distances of each segment's south pole to its neighbor's north pole (Note that it is important, that north and southpole have identical positions inside the Rope scene!). In the end, we have a Vector, that pulls back the KB2D, when it overstretches the chain. 
 However, this method might cause strange behavior, when the chain collides and wraps around rigid objects. To fix this, only the segments closer to the current player than the first colliding segment are considered when calculating the direction of the pull vector. The overall force of the pull is still determined by all segments together, which prevents the rope from becoming stretchier, when colliding.
+
+Known problems (which I'd really love to have a solution for, so lmk if you got something):
+* The rope sometimes glitches through the CollisionShapes of obstacles, when pulled too much. This is really annoying and janky and idk how to fix it.
+* I'd love to implement a version of the rope with a variable amount of segments. So that when the rope is pulled, it adds segments until it has hit a maximum amount. The same in reverse. if player1 moves closer to player2, segments get removed, until the length of the rope is closest to the player's distance. This comes with a lot of problems, because afaik pinjoint2D have to be aligned correctly before linking the bodies together and adding/removing segments will result in unlinking the players, realigning them and relinking them with new segments over and over. i really don't know a slick solution for this. but i'd love to know if you have one, thank.
+* The "calc_pull():" function inside Rope.gd Script probably has terrible optimization and is generally badly written. 
